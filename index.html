@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SenoxPlayz</title>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0a0a0a;
+    color: white;
+    text-align: center;
+}
+
+/* Animated BG */
+body::before {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,215,0,0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: move 20s linear infinite;
+}
+@keyframes move {
+    from { transform: translate(0,0); }
+    to { transform: translate(-100px,-100px); }
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: #111;
+}
+nav h2 { color: #ffd700; }
+
+nav button {
+    background: #ffd700;
+    border: none;
+    padding: 8px 15px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+/* Hero */
+.hero {
+    padding: 60px 20px;
+}
+.hero h1 {
+    font-size: 45px;
+    color: #ffd700;
+}
+
+.btn {
+    background: #ffd700;
+    padding: 10px 20px;
+    border: none;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+/* Cards */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.card {
+    background: #111;
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+}
+.modal-content {
+    background: #111;
+    margin: 100px auto;
+    padding: 20px;
+    width: 300px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<h2>SenoxPlayz</h2>
+<div>
+<button onclick="openLogin()">Login</button>
+<button onclick="openRegister()">Register</button>
+</div>
+</nav>
+
+<div class="hero">
+<h1>SenoxPlayz</h1>
+<p>Minecraft Dev • Bot Dev • Web Designer</p>
+</div>
+
+<h2>Services</h2>
+<div class="container">
+<div class="card">Minecraft Setup</div>
+<div class="card">Discord Bots</div>
+<div class="card">Website Dev</div>
+</div>
+
+<!-- LOGIN -->
+<div class="modal" id="loginBox">
+<div class="modal-content">
+<h2>Login</h2>
+<input id="loginEmail" placeholder="Email">
+<input id="loginPass" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
+</div>
+
+<!-- REGISTER -->
+<div class="modal" id="registerBox">
+<div class="modal-content">
+<h2>Register</h2>
+<input id="regEmail" placeholder="Email">
+<input id="regPass" type="password" placeholder="Password">
+<button onclick="register()">Register</button>
+</div>
+</div>
+
+<script>
+// FIREBASE CONFIG (READY)
+const firebaseConfig = {
+  apiKey: "AIzaSyDYSlLeHFwZhY7VK27xqqO4HHdXWCUUVTI",
+  authDomain: "senoxplayz-95ed1.firebaseapp.com",
+  projectId: "senoxplayz-95ed1"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+// REGISTER
+function register(){
+let email = document.getElementById("regEmail").value;
+let pass = document.getElementById("regPass").value;
+
+auth.createUserWithEmailAndPassword(email, pass)
+.then(()=> alert("Account Created"))
+.catch(err=> alert(err.message));
+}
+
+// LOGIN
+function login(){
+let email = document.getElementById("loginEmail").value;
+let pass = document.getElementById("loginPass").value;
+
+auth.signInWithEmailAndPassword(email, pass)
+.then(()=> alert("Login Success"))
+.catch(err=> alert(err.message));
+}
+
+// UI
+function openLogin(){ document.getElementById("loginBox").style.display="block"; }
+function openRegister(){ document.getElementById("registerBox").style.display="block"; }
+
+window.onclick = e => {
+if(e.target.classList.contains('modal')) e.target.style.display="none";
+}
+</script>
+
+</body>
+</html>
